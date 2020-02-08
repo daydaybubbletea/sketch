@@ -1,72 +1,44 @@
-import { Link } from 'react-router-dom';
 import * as React from 'react';
+import { List } from '../common/list';
 import './channel-preview.scss';
 
+type Thread = {
+  id:number;
+  author:string;
+  title:string;
+  brief:string;
+};
+
 interface Props {
-  channel:{id:number, name:string};
-  threads:{id:number, channel_id:number, title:string, brief:string, author:string }[];
+  title:string;
+  threads:Thread[];
+  goToChannel?:() => void;
+  goToThread:(id:number) => void;
 }
 interface State {
 }
 
 export class ChannelPreview extends React.Component<Props, State> {
   public render() {
-    return <div style={{
-      display:'flex',
-      flexDirection:'column',
-      alignItems: 'center',
-      margin:'0',
-      padding:'0',
-      width:'100%'}} className="channelpreview">
-      <div style={{
-        margin:'0',
-        backgroundColor:'rgba(244,245,249,1)',
-        padding:'10px 20px',
-        width:'100%',
-        textAlign:'left',
-        fontSize:'1.1rem',
-        fontWeight:'bold'}}>
-        <Link key={this.props.channel.id}
-                to={`/threads/?channels=[${this.props.channel.id}]`}>
-              {this.props.channel.name}
-        </Link>
+    return <div className="channel-preview">
+      <div className="title" onClick={this.props.goToChannel}>
+        {this.props.title}
       </div>
 
-      {this.props.threads.map((thread, id) => {
-        const borderBottomConst= id < (this.props.threads.length - 1 ) ? '4px solid rgba(244,245,249,1)' : '';
-        return <div style={{
-          margin:'0px',
-          backgroundColor:'white',
-          padding:'10px 0',
-          width:'100%',
-          display:'flex',
-          flexDirection:'column',
-          justifyContent:'flex-start',
-          borderBottom: borderBottomConst }}>
-        <div style={{margin:'0 20px'}}>
-            <div style={{
-              margin:'0px',
-              fontSize:'1rem',
-              float:'left',
-              fontWeight:'bold'}}>
-              <Link className="" key={thread.id}
-                to={`/thread/${thread.id}`}>{thread.title}
-              </Link>
+      <List className="list">
+        {this.props.threads.map((thread, index) => <List.Item
+          key={thread.id}
+          onClick={() => this.props.goToThread(thread.id)}
+        >
+          <div className="item-container">
+            <div className="item-first-line">
+              <div className="item-title">{thread.title}</div>
+              <div className="item-author">{thread.author}</div>
             </div>
-            <div style={{
-              margin:'0px',
-              padding:'0px',
-              float:'right',
-              textAlign:'right',
-              width:'100px',
-              fontSize:'0.9rem'}}>
-              {thread.author}
-            </div>
-        </div>
-        <div style={{margin:'0 20px', textAlign:'left', fontSize:'0.9rem'}}>{thread.brief}</div>
-      </div> ;
-      })}
-
+            <div className="item-brief">{thread.brief}</div>
+          </div>
+        </List.Item>)}
+      </List>
     </div>;
   }
 }

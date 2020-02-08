@@ -3,12 +3,19 @@ import { Core } from '../core';
 import { MobileRouter } from './mobile/router';
 import { Router } from 'react-router-dom';
 
+import '@fortawesome/fontawesome-free-webfonts/css/fontawesome.css';
+import '@fortawesome/fontawesome-free-webfonts/css/fa-regular.css';
+import '@fortawesome/fontawesome-free-webfonts/css/fa-solid.css';
+import '@fortawesome/fontawesome-free-webfonts/css/fa-brands.css';
+import './common.scss';
+import './theme/index.scss';
+import { loadStorage } from '../utils/storage';
+
 interface Props {
   core:Core;
 }
 
 interface State {
-
 }
 
 export class App extends React.Component<Props, State> {
@@ -22,10 +29,11 @@ export class App extends React.Component<Props, State> {
   }
 
   public render () {
-    return (
+    const theme = loadStorage('theme');
+    return (<div className={`theme-${theme}`} data-theme={theme} id="app">
       <Router history={this.props.core.history}>
         { this.renderApp() }
       </Router>
-    );
+    </div>);
   }
 }

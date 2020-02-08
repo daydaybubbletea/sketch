@@ -1,11 +1,12 @@
 import { DB } from './db';
 import { User } from './user';
-import createHistory from 'history/createBrowserHistory';
-import { History, UnregisterCallback } from 'history';
+import { History, UnregisterCallback, createBrowserHistory } from 'history';
 import { EventBus } from '../utils/events';
 import * as _ from 'lodash/core';
 import { TagHandler } from './tag-handler';
-import { Page } from './page';
+import { Route } from './route';
+import { saveStorage } from '../utils/storage';
+import { Themes } from '../view/theme/theme';
 const debounce = require('lodash/debounce');
 
 export class Core {
@@ -15,15 +16,15 @@ export class Core {
   public history:History;
   public unlistenHistory:UnregisterCallback;
   public windowResizeEvent:EventBus<void>;
-  public toPage:Page;
+  public route:Route;
 
   constructor () {
-    this.history = createHistory();
+    this.history = createBrowserHistory();
     this.unlistenHistory = this.history.listen((location, action) => {
       console.log(action, location.pathname, location.state);
     });
 
-    this.toPage = new Page(this.history);
+    this.route = new Route(this.history);
     this.tag = new TagHandler();
     this.user = new User(this.history);
     this.db = new DB(this.user, this.history);
@@ -31,5 +32,14 @@ export class Core {
     window.addEventListener('resize', debounce(() => {
       this.windowResizeEvent.notify(undefined);
     }));
+  }
+
+  public switchTheme (theme:Themes) {
+    const appElement = document.getElementById('app');
+    if (appElement) {
+      appElement.setAttribute('class', `theme-${theme}`);
+      appElement.setAttribute('data-theme', theme);
+      saveStorage('theme', theme);
+    }
   }
 }

@@ -1,0 +1,25 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  position: relative; 
+  height: 44px;
+  padding: 0 16px;
+  font-size: var(--font-size-4);
+  
+  .navbar-prev {
+    padding: 0 8px;
+  }
+
+  .navbar-start {
+    display: flex;
+    justify-content: space-around;
+    flex: 1;
+  }
+
+  .navbar-menu {
+    cursor: pointer;
+    padding: 0 8px;
+  }
+}

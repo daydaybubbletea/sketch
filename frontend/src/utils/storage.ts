@@ -1,9 +1,12 @@
+import { Themes } from '../view/theme/theme';
+
 export interface Storage {
   auth:{
-      token:string,
-      username:string,
-      userId:number,
-    };
+    token:string,
+    username:string,
+    userId:number,
+  };
+  theme:string;
 }
 
 export function allocStorage () : Storage {
@@ -13,6 +16,7 @@ export function allocStorage () : Storage {
       username:'',
       userId:-1,
     },
+    theme: Themes.light,
   };
 }
 

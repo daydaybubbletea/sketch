@@ -4,7 +4,6 @@ import { API, ResData, ReqData } from '../../../config/api';
 import { URLParser } from '../../../utils/url';
 import { UnregisterCallback } from 'history';
 import { TagFilter } from '../../components/common/tag-filter';
-import { HomeMenu } from './home-menu';
 import { ThreadPreview } from '../../components/thread/thread-preview';
 import { Page } from '../../components/common/page';
 import { Pagination } from '../../components/common/pagination';

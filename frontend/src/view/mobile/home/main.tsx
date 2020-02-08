@@ -1,16 +1,22 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import { Quotes } from '../../components/home/quotes';
 import { API } from '../../../config/api';
-import { HomeMenu } from './home-menu';
 import { MobileRouteProps } from '../router';
-import { BookPreview } from '../../components/home/book-preview';
-import { ThreadPreview } from '../../components/thread/thread-preview';
-import { StatusPreview } from '../../components/home/status-preview';
 import { Page } from '../../components/common/page';
-import { Card } from '../../components/common/card';
-import { Tab } from '../../components/common/tab';
 import { MainMenu } from '../main-menu';
+import { SearchBar } from '../search/search-bar';
+import { RoutePath } from '../../../config/route-path';
+import { ChannelPreview } from '../../components/home/channel-preview';
+import { Button } from '../../components/common/button';
+import './main.scss';
+
+type ListItem = {
+  title:string;
+  content:string;
+  author:string;
+  id:number;
+};
+
 interface State {
   data:API.Get['/'];
 }
@@ -19,38 +25,55 @@ export class HomeMain extends React.Component<MobileRouteProps, State> {
   public state:State = {
     data:{
       quotes: [],
-      recent_added_chapter_books: [],
-      recent_responded_books: [],
-      recent_responded_threads: [],
-      recent_statuses: [],
+      recent_recommendations: [],
+      homeworks: [],
+      channel_threads: [],
     },
   };
 
   public async componentDidMount () {
-    const data = await this.props.core.db.getPageHome();
-    if (data) {
+    try {
+      const data = await this.props.core.db.getPageHome();
       this.setState({data});
+    } catch (err) {
+      console.error(err);
     }
   }
 
   public render () {
-    return (<Page
-      bottom={<MainMenu />}
-      top={<HomeMenu />} >
+    return (<Page bottom={<MainMenu />} className="page-main">
+      <SearchBar core={this.props.core} />
       <Quotes
         quotes={this.state.data.quotes}
         core={this.props.core}
       />
-      { !this.props.core.user.isLoggedIn() &&
-        <Card style={{
-        border: 'none',
-        backgroundColor: 'transparent',
-        textAlign: 'center',
-        boxShadow: 'none',
-        }}><Link to={'/login'} className="button is-dark">Login</Link></Card>
-      }
+      <div className="main-buttons">
+        {this.renderMainButton('推荐', 'fas fa-fire', RoutePath.suggestion)}
+        {this.renderMainButton('文库', 'fas fa-book-open', RoutePath.library)}
+      </div>
 
-      {/* <Recommendation recommendations={this.state.data.recommendation} core={this.props.core} /> */}
+      <ChannelPreview
+        title={'推荐榜单'}
+        threads={[]}
+        goToThread={(id) => this.props.core.route.thread(id)}
+      />
+      <ChannelPreview
+        title={'原创榜单'}
+        threads={[]}
+        goToThread={(id) => this.props.core.route.thread(id)}
+      />
+      <ChannelPreview
+        title={'同人榜单'}
+        threads={[]}
+        goToThread={(id) => this.props.core.route.thread(id)}
+      />
     </Page>);
+  }
+
+  public renderMainButton = (text:string, icon:string, link:RoutePath) => {
+    return <Button onClick={() => this.props.core.route.go(link)}
+      icon={icon}
+      color="primary"
+    >{text}</Button>;
   }
 }

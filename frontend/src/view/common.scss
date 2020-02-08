@@ -1,0 +1,47 @@
+// this file is for both pc and mobile styles
+
+:root {
+  --radius-base: 4px;
+  --radius-big: 11px;
+  --radius-bigger: 15px;
+
+  --font-family-regular: PingFangSC-Regular;
+  --font-family-bold: PingFangSC-Semibold;
+  --font-family-medium: PingFangSC-Medium;
+
+  --font-size-small: 10px;
+  --font-size-1: 12px;
+  --font-size-2: 14px;
+  --font-size-3: 16px;
+  --font-size-4: 18px;
+
+  // todo: base/big margin, padding ...etc
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-family-regular);
+  font-size: var(--font-size-small);
+}
+
+input {
+  border: none;
+}
+input:focus {
+  border: none;
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+  &:active {
+    text-decoration: none;
+  }
+}
+
+// set h1, h2, h3, h4, h5 font-size, font-family
+title {
+  font-family: var(--font-family-bold)
+}
+

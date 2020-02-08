@@ -18,7 +18,6 @@ export class Card extends React.Component<{
         ref={(el) => this.rootElement = el}
         style={Object.assign(
           {
-            marginTop: '10px',
             padding: '10px',
             position: 'relative',
           },

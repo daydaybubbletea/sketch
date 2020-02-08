@@ -2,6 +2,10 @@ import '@fortawesome/fontawesome-free-webfonts/css/fa-brands.css';
 import '@fortawesome/fontawesome-free-webfonts/css/fa-regular.css';
 import '@fortawesome/fontawesome-free-webfonts/css/fa-solid.css';
 import '@fortawesome/fontawesome-free-webfonts/css/fontawesome.css';
+
+import '../view/common.scss';
+import '../view/theme/index.scss';
+
 import { action } from '@storybook/addon-actions';
 import { withConsole } from '@storybook/addon-console';
 import { boolean, number, select, text, withKnobs } from '@storybook/addon-knobs';
@@ -10,7 +14,6 @@ import { addDecorator, storiesOf } from '@storybook/react';
 import { createBrowserHistory } from 'history';
 import React from 'react';
 import { Router } from 'react-router';
-import '../theme.scss';
 import { Accordion } from '../view/components/common/accordion';
 import { Animate } from '../view/components/common/animate';
 import { Badge } from '../view/components/common/badge';
@@ -37,8 +40,6 @@ import { Loading } from '../view/components/common/loading';
 import { ResizableTextarea } from '../view/components/common/resizable-textarea';
 import { ThreadPreview } from '../view/components/thread/thread-preview';
 import { randomCnWords } from '../utils/fake';
-import { FooterMenu } from '../view/components/common/footer-menu';
-import { SearchHomepageBar } from '../view/components/home/searchhomepage-bar';
 import { ChannelPreview } from '../view/components/home/channel-preview';
 import { TagBasic } from '../view/components/home/tagbasic';
 import { TagBasicList } from '../view/components/home/tagbasic-list';
@@ -49,8 +50,7 @@ import { ChatBubble } from '../view/components/message/chat-bubble';
 import { ExpandableMessage } from '../view/components/message/expandable-message';
 import { Fragment } from 'react';
 import { fakeDB } from '../test/mock-data/fake-db';
-import { Dialogue } from '../view/mobile/message/dialogue';
-import { App } from '../view';
+import { Button } from '../view/components/common/button';
 
 const core = new Core();
 fakeDB(core.db);
@@ -60,6 +60,14 @@ addDecorator(withViewport());
 addDecorator(withKnobs);
 
 storiesOf('Common Components', module)
+  .add('button', () => <Button
+    onClick={action('onClick')}
+    icon={text('icon', 'fa fa-search')}
+    disabled={boolean('disabled', false)}
+    color={select('color', {primary: 'primary', default: ''}, '')}
+    size={select('size', {default: '', small: 'small'}, '')}
+    type={select('type', {default: '', ellipse: 'ellipse'}, '')}
+  >I am a button</Button>)
   .add('Badge', () => <Badge num={number('num', 10)}
       max={number('max', 0)}
       dot={boolean('dot', false)}
@@ -464,68 +472,20 @@ storiesOf('Common Components/Float Button', module)
   </FloatButton>)
 ;
 storiesOf('Home Components/HomePage', module)
-  .add('SearchHomepageBar', () => React.createElement(class extends React.Component {
-    public render () {
-      return <div style={{
-        position: 'absolute',
-        height: '100%',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: 'rgba(244,245,249,1)',
-      }}>
-          <SearchHomepageBar hasInfo={true}
-            onSearch={() => console.log('click search')} onInfo={() => console.log('click info')}>
-          </SearchHomepageBar>
-      </div>;
-    }
-  }))
   .add('ChannelPreview', () => React.createElement(class extends React.Component {
     public render () {
       const items = [
-        {id:1, channel_id:1, title:'春潮', brief:'我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性', author:'小山鬼'},
-        {id:2, channel_id:1, title:'stay gold', brief:'娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷', author:'草率'},
-        {id:3, channel_id:1, title:'英国病人', brief:'我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性', author:'小山鬼'},
+        {id:1, title:'春潮', brief:'我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性', author:'小山鬼'},
+        {id:2, title:'stay gold', brief:'娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷娱乐圈万人迷', author:'草率'},
+        {id:3, title:'英国病人', brief:'我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性我要吞下蛮荒的野兽本性', author:'小山鬼'},
     ];
       return <Router history={createBrowserHistory()}>
           <ChannelPreview
-          channel={{id:1, name: '推荐榜单'}}
-          threads={items}>
+            goToThread={action('goToThread')}
+            title="推荐榜单"
+            threads={items}>
         </ChannelPreview>
         </Router>;
-    }
-  }))
-  .add('buttons', () => <NavBar goBack={action('goBack')}>
-    <div className="button is-danger"><i className="fas fa-fire"></i>推荐</div>
-    <div className="button is-danger"><i className="fas fa-book-open"></i>文库</div>
-  </NavBar>)
-  .add('FooterMenu', () => React.createElement(class extends React.Component {
-    public state = {
-      onIndex: 0,
-      icon: boolean('icon', false),
-    };
-    public render () {
-      const items = [
-        {to: '', label: '首页', icon: 'fas fa-home', defaultColor:'black', selectedColor:'red'},
-        {to: '', label: '论坛', icon: 'fas fa-comments', defaultColor:'black', selectedColor:'red'},
-        {to: '', label: '动态', icon: 'far fa-compass', defaultColor:'black', selectedColor:'red'},
-        {to: '', label: '收藏', icon: 'far fa-star', defaultColor:'black', selectedColor:'red'},
-        {to: '', label: '我的', icon: 'far fa-user', defaultColor:'black', selectedColor:'red'},
-      ];
-      return <Router history={createBrowserHistory()}>
-      <div style={{
-          position: 'absolute',
-          height: '100%',
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column'}}>
-          <FooterMenu
-            items={items}
-            onIndex={this.state.onIndex}
-            onClick={(_, i) => this.setState({onIndex: i})}
-          ></FooterMenu>
-          </div>
-      </Router>;
     }
   }))
   .add('tagbasicMidium', () => <TagBasic

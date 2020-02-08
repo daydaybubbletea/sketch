@@ -1,0 +1,26 @@
+.button {
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-3);
+  font-family: var(--font-family-medium);
+  text-align: center;
+  cursor: pointer;
+  padding: 0 26px;
+
+  i {
+    margin-right: 4px;
+  }
+}
+
+.button.ellipse {
+  border-radius: var(--radius-bigger);
+  height: 30px;
+}
+
+.button.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

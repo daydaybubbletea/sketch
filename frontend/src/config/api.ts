@@ -436,10 +436,9 @@ export namespace API {
   export interface Get {
     '/':{
       quotes:ResData.Quote[],
-      recent_added_chapter_books:ResData.Thread[],
-      recent_responded_books:ResData.Thread[],
-      recent_responded_threads:ResData.Thread[],
-      recent_statuses:ResData.Status[],
+      recent_recommendations:ResData.Post[],
+      homeworks:ResData.Thread[],
+      channel_threads:ResData.Thread[],
     };
     '/homethread':{
       [idx:string]:{

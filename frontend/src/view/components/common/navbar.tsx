@@ -1,8 +1,10 @@
 import * as React from 'react';
+import './navbar.scss';
 
 interface Props {
   goBack:() => void;
   onMenuClick?:() => void;
+  menuIcon?:string;
   style?:React.CSSProperties;
 }
 
@@ -11,44 +13,21 @@ interface State {
 
 export class NavBar extends React.Component<Props, State> {
   public render () {
-    return <div style={Object.assign({
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      textAlign: 'center',
-      minHeight: '3.25rem',
-      backgroundColor: 'white',
-      position: 'relative',
-    },                               this.props.style || {})}
-      className="navbar"
-      role="navigation"
-      aria-label="main navigation">
+    const menuIcon = this.props.menuIcon || 'fas fa-ellipsis-h';
+    return <div style={this.props.style} className="navbar">
+      <div className="navbar-prev" onClick={this.goBack}>&#10094;</div>
 
-      <div className="navbar-brand">
-        <a className="navbar-item prev" onClick={this.goBack}>&#10094;</a>
-      </div>
-
-      <div className="navbar-start" style={{
-        display: 'flex',
-        justifyContent: 'space-around',
-        flex: 1,
-      }}>
+      <div className="navbar-start">
         {this.props.children}
       </div>
 
-      <div className="navbar-end" style={{width: '32.14px'}}>
-        {this.props.onMenuClick &&
-            <div className="navbar-item" onClick={this.props.onMenuClick} style={{
-              cursor: 'pointer',
-            }}>
-              <i className="fas fa-ellipsis-h"></i>
-            </div>
-        }
+      <div className="navbar-menu" onClick={this.props.onMenuClick}>
+        <i className={menuIcon}></i>
       </div>
     </div>;
   }
 
-  public goBack = (ev:React.MouseEvent<HTMLAnchorElement>) => {
+  public goBack = () => {
     this.props.goBack();
   }
 }

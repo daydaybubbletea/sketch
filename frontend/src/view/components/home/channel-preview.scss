@@ -1,8 +1,44 @@
-.channelpreview {
-  a {
-    color: black;
-    &:focus{
-      text-decoration: black;
+.channel-preview {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+
+  .title {
+    margin: 0;
+    padding: 10px 20px;
+    width: 100%;
+    text-align: left;
+    font-size: var(--font-size-3);
+    font-weight: bold;
+  }
+
+  .list {
+    width: 100%;
+
+    .item-container {
+      padding: 10px 0;
+
+      .item-first-line {
+        margin: 0 20px;
+        display: flex;
+        justify-content: space-between;
+
+        .item-title {
+          font-size: var(--font-size-2);
+          font-weight: bold;
+        }
+        .item-author {
+          text-align: right;
+          width: 100px;
+          font-size: var(--font-size-1);
+        }
+      }
+
+      .item-brief {
+        margin: 0 20px;
+        text-align: left;
+        font-size: var(--font-size-1);
+      }
     }
   }
 }

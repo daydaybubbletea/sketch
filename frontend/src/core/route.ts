@@ -1,23 +1,23 @@
-import { History, UnregisterCallback } from 'history';
+import { History } from 'history';
 
-export class Page {
+export class Route {
     constructor (
         private _history:History,
     ) { }
 
-    private _go (path:string) {
+    public go (path:string) {
         this._history.push(path);
         this._history.goForward();
     }
 
     public channelTag (channelId:number, tagId:number) {
-        this._go(`/threads/?channels=[${channelId}]&tags=[${tagId}]`);
+        this.go(`/threads/?channels=[${channelId}]&tags=[${tagId}]`);
     }
     public thread (threadId:number) {
-        this._go(`/thread/${threadId}`);
+        this.go(`/thread/${threadId}`);
     }
 
     public user (userId:number) {
-        this._go(`/user/${userId}`);
+        this.go(`/user/${userId}`);
     }
 }
